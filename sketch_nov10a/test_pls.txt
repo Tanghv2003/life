@@ -1,0 +1,35 @@
+// Arduino Pulse Sensor Simple Measurement
+
+#include <Arduino.h>
+#include <PulseSensorPlayground.h>
+
+const int PULSE_INPUT = 34;   // Analog Input pin connected to Pulse Sensor
+const int THRESHOLD = 500;   // Adjust threshold based on sensor noise
+
+PulseSensorPlayground pulseSensor;
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+
+  pulseSensor.analogInput(PULSE_INPUT);
+  pulseSensor.setThreshold(THRESHOLD);
+
+  if (!pulseSensor.begin()) {
+    Serial.println("Pulse Sensor initialization failed!");
+    while (true);
+  }
+
+  Serial.println("Pulse Sensor is ready.");
+}
+
+void loop() {
+  if (pulseSensor.sawStartOfBeat()) {
+    int bpm = pulseSensor.getBeatsPerMinute();
+    Serial.print("Heartbeat detected: ");
+    Serial.print(bpm);
+    Serial.println(" BPM");
+  }
+
+  delay(20); // Small delay to stabilize readings
+}

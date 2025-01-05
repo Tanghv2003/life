@@ -1,0 +1,41 @@
+.rate {
+    display: flex;
+    justify-content: space-between; /* Để đảm bảo khoảng cách giữa các biểu đồ */
+    align-items: flex-start; /* Căn trên để có không gian cho biểu đồ tròn */
+    gap: 20px; /* Khoảng cách giữa biểu đồ tròn và biểu đồ cột */
+    height: 360px
+  }
+  
+  .rate__chart {
+    flex: 1; /* Để biểu đồ chiếm không gian đều nhau */
+    max-width: 45%; /* Đặt giới hạn kích thước để tránh quá lớn */
+    height: 300px; /* Đặt chiều cao cố định để đảm bảo tính thẩm mỹ */
+    position: relative; /* Giúp kiểm soát vị trí các phần tử bên trong */
+  }
+  
+  .rate__chart h2 {
+    text-align: center; /* Căn giữa tiêu đề */
+    margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+    font-size: 16px; /* Giảm kích thước font chữ */
+  }
+  
+  .pie-container {
+    display: flex;
+    flex-direction: row; /* Sắp xếp các label theo chiều ngang */
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; /* Đảm bảo các phần tử chiếm hết chiều rộng */
+    margin-top: 10px; /* Khoảng cách giữa biểu đồ và các label */
+  }
+  
+  .pie-label {
+    flex: 1; /* Đảm bảo các label chiếm không gian đều */
+    text-align: center; /* Căn giữa chữ */
+  }
+  
+  .pie-chart {
+    width: 80% !important; /* Giảm kích thước của biểu đồ tròn */
+    height: 80% !important; /* Giảm chiều cao của biểu đồ tròn */
+    margin: 0 auto; /* Căn giữa biểu đồ */
+  }
+  

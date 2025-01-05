@@ -1,0 +1,48 @@
+.overview {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    
+   
+    
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử */
+    justify-content: space-between; /* Căn đều các phần tử */
+    align-items: center; /* Căn chỉnh các phần tử theo chiều dọc */
+    width: 100%;
+  }
+  
+  .overview__content {
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử trong hàng ngang */
+    justify-content: space-between; /* Căn đều các mục trong hàng ngang */
+    width: 100%; /* Đảm bảo chiều rộng của content đầy đủ */
+  }
+  
+  .overview__item {
+    display: flex;
+    flex-direction: column; /* Căn chỉnh các label và value theo chiều dọc */
+    justify-content: center; /* Căn giữa các phần tử bên trong */
+    align-items: center; /* Căn giữa các phần tử bên trong */
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    width: 30%; /* Mỗi mục chiếm 30% chiều rộng */
+    margin-right: 50px; /* Cách nhau 20px */
+  }
+  
+  .overview__item:last-child {
+    margin-right: 0; /* Đảm bảo phần tử cuối không có margin-right */
+  }
+  
+  .overview__label {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .overview__value {
+    font-size: 1.2rem;
+    color: #007bff;
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,67 @@
+/* Tổng thể Navbar */
+.navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  width: 70px; /* Chiều rộng cố định */
+  text-align: center; /* Căn giữa nội dung */
+  border-radius: 15px;
+  background-color: #2279BE;
+}
+
+/* Tiêu đề Navbar */
+.navbar-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: #fff;
+  text-align: center; /* Căn giữa tổng thể */
+  line-height: 1.5; /* Khoảng cách dòng */
+}
+
+/* Chữ HUST */
+.navbar-title-hust {
+  display: inline-block;
+  position: relative;
+  left: -10px; /* Lệch sang phải */
+}
+
+/* Chữ LIFE */
+.navbar-title-life {
+  display: inline-block;
+  position: relative;
+  left: 10px; /* Lệch sang trái */
+}
+
+/* Danh sách các mục trong Navbar */
+.navbar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Sắp xếp dọc */
+  align-items: center; /* Căn giữa các mục */
+  margin-top: 150px;
+}
+
+/* Từng mục trong danh sách */
+.navbar-item {
+  margin: 15px 0;
+}
+
+/* Liên kết trong mục */
+.navbar-link {
+  text-decoration: none; /* Xóa gạch chân */
+}
+
+/* Biểu tượng trong liên kết */
+.navbar-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease-in-out; /* Hiệu ứng phóng to khi hover */
+}
+
+.navbar-link:hover .navbar-icon {
+  transform: scale(1.1); /* Phóng to khi hover */
+}

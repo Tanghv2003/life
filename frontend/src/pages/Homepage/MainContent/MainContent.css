@@ -1,0 +1,20 @@
+.main1 {
+    display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử */
+    justify-content: flex-start; /* Căn các phần tử từ trên cùng bên trái */
+    align-items: flex-start; /* Căn các phần tử về phía bên trái */
+    width: 70%;
+    height: 100vh; /* Chiều cao toàn màn hình */
+    background-color: aquamarine;
+    border-radius: 15px;
+    padding: 2px; /* Khoảng cách bên trong */
+    box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến chiều rộng */
+}
+
+.main-content1 {
+    width: 100%; 
+    background-color: #f4f4f4; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+    border-radius: 8px; /* Bo góc */
+    overflow: hidden;
+    padding: 0px; /* Khoảng cách bên trong */
+}

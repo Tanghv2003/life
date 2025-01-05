@@ -1,0 +1,41 @@
+.greeting {
+  display: flex; /* Sắp xếp theo hàng ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: space-between; /* Tạo khoảng cách giữa các khối */
+  padding: 20px;
+  gap: 20px; /* Khoảng cách giữa các phần tử */
+  background-color: #2279BE;
+  height: 120px;
+  margin-bottom: 10px;
+}
+
+.greeting__text {
+  text-align: left; /* Căn văn bản về bên trái */
+  max-width: 300px; /* Đặt chiều rộng tối đa để không vượt khung */
+  margin-top: 70px;
+  font-family: 'Arial', sans-serif; /* Kiểu font chữ */
+}
+
+.greeting__text h1 {
+  font-size: 2rem; /* Kích thước chữ lớn cho tiêu đề */
+  font-weight: bold; /* Đậm tiêu đề */
+  color: #EEEEEE; /* Màu chữ (xám đậm) */
+  margin: 0 0 10px 0; /* Khoảng cách dưới tiêu đề */
+}
+
+.greeting__text p {
+  font-size: 1.2rem; /* Kích thước chữ cho đoạn văn */
+  line-height: 1.5; /* Khoảng cách dòng */
+  color: #EEEEEE; /* Màu chữ (xám nhạt hơn tiêu đề) */
+  margin: 0; /* Loại bỏ khoảng cách mặc định */
+}
+.greeting__images {
+  display: flex; /* Sắp xếp hình ảnh theo hàng ngang */
+  gap: 50px; /* Khoảng cách giữa các hình ảnh */
+}
+
+.greeting__image {
+  max-width: 150px; /* Kích thước tối đa cho hình ảnh */
+  height: auto;
+  border-radius: 8px; /* Góc bo tròn cho hình ảnh */
+}

@@ -1,0 +1,251 @@
+/* info.css */
+
+.user-info {
+    margin: 0px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f4f4f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 31%;
+  }
+  
+  .user-info h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #2279BE;
+    color: #EEEEEE;
+  }
+  
+  .user-info .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 3px solid #007bff;  /* Thêm viền có màu xanh dương */
+    padding: 2px; /* Khoảng cách giữa ảnh và viền */
+    background-color: #008080;
+  }
+  
+  .user-info .user-info-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-info .user-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-info .user-details p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .user-info p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+  }
+  
+  .user-info p strong {
+    color: #007bff;
+  }
+  
+  .user-info .header1a {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    background-color: #2279BE;
+    height: 25%;
+    margin-bottom: 10px;
+    border-radius: 15px;
+  }
+  
+  .user-info .edit-btn img {
+    width: 25px;
+    height: 25px;
+   
+    background-color: transparent;
+  }
+  
+  /* Căn chỉnh thông tin chiều cao, cân nặng và giới tính nằm ngang hàng */
+  .user-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Đảm bảo chiều cao, cân nặng và giới tính hiển thị theo 2 dòng */
+  .user-stats p {
+    margin: 0 15px; /* Thêm khoảng cách giữa các thông tin */
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .stat-value {
+    display: block;  /* Hiển thị giá trị trên dòng mới */
+    margin-top: 5px;  /* Thêm khoảng cách giữa chữ và giá trị */
+  }
+  .user-info .edit-btn {
+    background-color: transparent;  /* Nền trong suốt */
+    border: none;  /* Bỏ viền */
+    cursor: pointer;  /* Thêm con trỏ chuột dạng tay */
+    transition: transform 0.2s ease, filter 0.2s ease;  /* Hiệu ứng chuyển động và ánh sáng */
+}
+
+/* Hiệu ứng khi di chuột vào nút */
+.user-info .edit-btn:hover {
+    transform: scale(1.1);  /* Phóng to nút khi hover */
+    filter: brightness(1.2);  /* Làm sáng biểu tượng khi hover */
+}
+
+/* Hiệu ứng khi nhấn vào nút */
+.user-info .edit-btn:active {
+    transform: scale(0.95);  /* Thu nhỏ nút khi nhấn */
+    filter: brightness(0.8);  /* Làm tối biểu tượng khi nhấn */
+}
+
+
+.modal-overlay {
+  position: fixed;
+  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancel,
+.btn-save {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-cancel {
+  background-color: #e0e0e0;
+}
+
+.btn-save {
+  background-color: #2196f3;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #d0d0d0;
+}
+
+.btn-save:hover {
+  background-color: #1976d2;
+}
+
+
+.health-modal {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.health-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.health-section h3 {
+  margin: 0 0 16px 0;
+  color: #2196f3;
+  font-size: 18px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
+}

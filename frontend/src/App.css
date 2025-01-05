@@ -1,0 +1,4 @@
+.app {
+  display: flex; /* Dùng Flexbox để sắp xếp các phần tử theo chiều ngang */
+  height: 100vh; /* Đảm bảo chiều cao của ứng dụng chiếm hết chiều cao màn hình */
+}

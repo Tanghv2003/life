@@ -1,0 +1,125 @@
+/* Chung cho toàn bộ container */
+.survey-container {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-top: 0px;
+  display: flex;
+  flex-direction: column; /* Để các phần tử con sắp xếp theo cột */
+  
+}
+
+/* Tiêu đề */
+.survey-header {
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #2279BE;
+  height: 12%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  top: 0;
+  border-radius: 15px;
+}
+
+.survey-title {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+  color: #EEEEEE;
+}
+
+/* Các nhóm form */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+/* Nút gửi */
+.form-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #45a049;
+}
+
+/* Tiêu đề lịch sử */
+.history-title {
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Lịch sử khảo sát */
+.history-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.history-item {
+  background-color: #f1f1f1;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.history-item strong {
+  font-weight: 700;
+}
+
+.history-empty {
+  font-style: italic;
+  color: #999;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .survey-container {
+    padding: 15px;
+  }
+
+  .survey-title {
+    font-size: 20px;
+  }
+
+  .form-button {
+    font-size: 14px;
+  }
+}
+

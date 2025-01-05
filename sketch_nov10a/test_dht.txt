@@ -1,0 +1,40 @@
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
+
+// Định nghĩa chân kết nối và loại cảm biến
+#define DHTPIN 27     // Chân DATA của DHT22 kết nối với GPIO 4 trên ESP32
+#define DHTTYPE DHT22   // DHT22 (AM2302)
+
+// Khởi tạo đối tượng DHT
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println(F("DHT22 test!"));
+
+  // Khởi tạo DHT
+  dht.begin();
+}
+
+void loop() {
+  // Đọc giá trị nhiệt độ và độ ẩm
+  float humidity = dht.readHumidity();    // Đọc độ ẩm
+  float temperature = dht.readTemperature(); // Đọc nhiệt độ (đơn vị Celsius)
+
+  // Kiểm tra lỗi
+  if (isnan(humidity) || isnan(temperature)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+    return;
+  }
+
+  // Hiển thị giá trị trên Serial Monitor
+  Serial.print(F("Humidity: "));
+  Serial.print(humidity);
+  Serial.print(F("%  Temperature: "));
+  Serial.print(temperature);
+  Serial.println(F("°C"));
+
+  // Chờ 2 giây trước khi đọc lần tiếp theo
+  delay(2000);
+}
