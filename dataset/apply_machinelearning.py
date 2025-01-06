@@ -1,157 +1,149 @@
+from test_connect import HealthDataService
 import pandas as pd
 import joblib
 import os
 
-def load_saved_models():
-    """Load all saved models and components"""
-    models = {}
-    for model_name in ['Logistic_Regression', 'Random_Forest']:
-        model_path = f'saved_models/{model_name}'
-        models[model_name] = {
-            'model': joblib.load(f'{model_path}/model.joblib'),
-            'config': joblib.load(f'{model_path}/config.joblib')
-        }
-    
-    scaler = joblib.load('saved_models/scaler.joblib')
-    encoders = joblib.load('saved_models/encoders.joblib')
-    return models, scaler, encoders
+class HealthMLService:
+    def __init__(self, base_url="http://localhost:3001"):
+        """Initialize the service with models and health data connection"""
+        self.health_service = HealthDataService(base_url=base_url)
+        self.models, self.scaler, self.encoders = self.load_saved_models()
 
-def create_sample_data():
-    """Create sample data for testing"""
-    sample_data = pd.DataFrame([
-        {
-            'BMI': 28.5,
-            'Smoking': 'Yes',
-            'AlcoholDrinking': 'No',
-            'Stroke': 'No',
-            'PhysicalHealth': 2.0,
-            'MentalHealth': 2.0,
-            'DiffWalking': 'No',
-            'Sex': 'Male',
-            'AgeCategory': '45-49',
-            'Race': 'White',
-            'Diabetic': 'No',
-            'PhysicalActivity': 'Yes',
-            'GenHealth': 'Very good',
-            'SleepTime': 7.0,
-            'Asthma': 'No',
-            'KidneyDisease': 'No',
-            'SkinCancer': 'No'
-        },
-        {
-            'BMI': 32.0,
-            'Smoking': 'Yes',
-            'AlcoholDrinking': 'Yes',
-            'Stroke': 'No',
-            'PhysicalHealth': 10.0,
-            'MentalHealth': 5.0,
-            'DiffWalking': 'Yes',
-            'Sex': 'Female',
-            'AgeCategory': '65-69',
-            'Race': 'Black',
-            'Diabetic': 'Yes',
-            'PhysicalActivity': 'No',
-            'GenHealth': 'Fair',
-            'SleepTime': 6.0,
-            'Asthma': 'Yes',
-            'KidneyDisease': 'No',
-            'SkinCancer': 'No'
-        },
-        {
-            'BMI': 24.0,
-            'Smoking': 'No',
-            'AlcoholDrinking': 'No',
-            'Stroke': 'No',
-            'PhysicalHealth': 0.0,
-            'MentalHealth': 0.0,
-            'DiffWalking': 'No',
-            'Sex': 'Female',
-            'AgeCategory': '25-29',
-            'Race': 'Asian',
-            'Diabetic': 'No',
-            'PhysicalActivity': 'Yes',
-            'GenHealth': 'Excellent',
-            'SleepTime': 8.0,
-            'Asthma': 'No',
-            'KidneyDisease': 'No',
-            'SkinCancer': 'No'
-        }
-    ])
-    return sample_data
-
-def prepare_sample_data(sample_data, encoders, models):
-    """Prepare sample data for prediction"""
-    prepared_data = sample_data.copy()
-    
-    # Binary encoding
-    binary_cols = ['Smoking', 'AlcoholDrinking', 'Stroke', 'DiffWalking', 
-                  'Sex', 'PhysicalActivity', 'Asthma', 'KidneyDisease', 'SkinCancer']
-    le = encoders['label_encoder']
-    for col in binary_cols:
-        prepared_data[col] = le.fit_transform(prepared_data[col])
-    
-    # Ordinal encoding
-    ordinal_cols = ['GenHealth', 'AgeCategory']
-    oe = encoders['ordinal_encoder']
-    prepared_data[ordinal_cols] = oe.transform(prepared_data[ordinal_cols])
-    
-    # One-hot encoding
-    prepared_data = pd.get_dummies(prepared_data, columns=['Race', 'Diabetic'])
-    
-    # Ensure all feature columns are present
-    feature_names = models['Logistic_Regression']['config']['feature_names']
-    for col in feature_names:
-        if col not in prepared_data.columns:
-            prepared_data[col] = 0
-            
-    # Reorder columns to match training data
-    prepared_data = prepared_data[feature_names]
-    
-    return prepared_data
-
-def make_predictions(prepared_data, models, scaler):
-    """Make predictions using both models"""
-    # Scale the data
-    scaled_data = scaler.transform(prepared_data)
-    
-    results = []
-    for model_name, model_info in models.items():
-        model = model_info['model']
-        predictions = model.predict(scaled_data)
-        probabilities = model.predict_proba(scaled_data)
+    def load_saved_models(self):
+        """Load all saved models and components"""
+        models = {}
+        for model_name in ['Logistic_Regression', 'Random_Forest']:
+            model_path = f'saved_models/{model_name}'
+            models[model_name] = {
+                'model': joblib.load(f'{model_path}/model.joblib'),
+                'config': joblib.load(f'{model_path}/config.joblib')
+            }
         
-        for i in range(len(predictions)):
+        scaler = joblib.load('saved_models/scaler.joblib')
+        encoders = joblib.load('saved_models/encoders.joblib')
+        return models, scaler, encoders
+
+    def prepare_health_data(self, health_data):
+        """Convert health service data to model-compatible format"""
+        formatted_data = pd.DataFrame([{
+            'BMI': float(health_data['BMI']),
+            'Smoking': health_data['Smoking'],
+            'AlcoholDrinking': health_data['AlcoholDrinking'],
+            'Stroke': health_data['Stroke'],
+            'PhysicalHealth': float(health_data['PhysicalHealth']),
+            'MentalHealth': float(health_data['MentalHealth']),
+            'DiffWalking': health_data['DiffWalking'],
+            'Sex': health_data['Sex'],
+            'AgeCategory': health_data['AgeCategory'],
+            'Race': health_data['Race'],
+            'Diabetic': health_data['Diabetic'],
+            'PhysicalActivity': health_data['PhysicalActivity'],
+            'GenHealth': health_data['GenHealth'],
+            'SleepTime': float(health_data['SleepTime']),
+            'Asthma': health_data['Asthma'],
+            'KidneyDisease': health_data['KidneyDisease'],
+            'SkinCancer': health_data['SkinCancer']
+        }])
+        return formatted_data
+
+    def prepare_for_prediction(self, data):
+        """Prepare data for model prediction"""
+        prepared_data = data.copy()
+        
+        # Binary encoding
+        binary_cols = ['Smoking', 'AlcoholDrinking', 'Stroke', 'DiffWalking', 
+                      'Sex', 'PhysicalActivity', 'Asthma', 'KidneyDisease', 'SkinCancer']
+        le = self.encoders['label_encoder']
+        for col in binary_cols:
+            prepared_data[col] = le.fit_transform(prepared_data[col])
+        
+        # Ordinal encoding
+        ordinal_cols = ['GenHealth', 'AgeCategory']
+        oe = self.encoders['ordinal_encoder']
+        prepared_data[ordinal_cols] = oe.transform(prepared_data[ordinal_cols])
+        
+        # One-hot encoding
+        prepared_data = pd.get_dummies(prepared_data, columns=['Race', 'Diabetic'])
+        
+        # Ensure all feature columns are present
+        feature_names = self.models['Logistic_Regression']['config']['feature_names']
+        for col in feature_names:
+            if col not in prepared_data.columns:
+                prepared_data[col] = 0
+                
+        # Reorder columns to match training data
+        prepared_data = prepared_data[feature_names]
+        
+        return prepared_data
+
+    def predict_heart_disease(self, prepared_data):
+        """Make predictions using both models"""
+        # Scale the data
+        scaled_data = self.scaler.transform(prepared_data)
+        
+        results = []
+        for model_name, model_info in self.models.items():
+            model = model_info['model']
+            predictions = model.predict(scaled_data)
+            probabilities = model.predict_proba(scaled_data)
+            
             results.append({
-                'Model': model_name,
-                'Sample': i + 1,
-                'Prediction': 'Heart Disease' if predictions[i] == 1 else 'No Heart Disease',
-                'Probability': f"{probabilities[i][1]:.2%}"
+                'model': model_name,
+                'prediction': 'Heart Disease' if predictions[0] == 1 else 'No Heart Disease',
+                'probability': f"{probabilities[0][1]:.2%}"
             })
-    
-    return pd.DataFrame(results)
+        
+        return results
+
+    def analyze_health_data(self, user_id, record_id):
+        """Fetch health data and perform heart disease prediction"""
+        try:
+            # Get health data from service
+            health_data = self.health_service.get_complete_health_data(user_id, record_id)
+            
+            if not health_data:
+                raise ValueError("Failed to fetch health data")
+
+            print("\nRetrieved health data:")
+            for key, value in health_data.items():
+                print(f"{key}: {value}")
+
+            # Prepare data for prediction
+            formatted_data = self.prepare_health_data(health_data)
+            prepared_data = self.prepare_for_prediction(formatted_data)
+            
+            # Make predictions
+            predictions = self.predict_heart_disease(prepared_data)
+            
+            return {
+                'health_data': health_data,
+                'predictions': predictions
+            }
+            
+        except Exception as e:
+            raise Exception(f"Analysis failed: {str(e)}")
 
 def main():
-    # Load saved models and components
-    print("Loading saved models...")
-    models, scaler, encoders = load_saved_models()
+    # Initialize the service
+    health_ml_service = HealthMLService()
     
-    # Create sample data
-    print("\nCreating sample data...")
-    sample_data = create_sample_data()
-    print("\nSample data created:")
-    print(sample_data)
+    # Example user and record IDs
+    user_id = "67671fc9f438338fceba7540"
+    record_id = "67797cc2a12f2a39e76cfa5e"
     
-    # Prepare data for prediction
-    print("\nPreparing data for prediction...")
-    prepared_data = prepare_sample_data(sample_data, encoders, models)
-    
-    # Make predictions
-    print("\nMaking predictions...")
-    predictions = make_predictions(prepared_data, models, scaler)
-    
-    # Display results
-    print("\nPrediction Results:")
-    print(predictions.to_string(index=False))
+    try:
+        # Get analysis results
+        results = health_ml_service.analyze_health_data(user_id, record_id)
+        
+        # Display predictions
+        print("\nPredictions:")
+        for prediction in results['predictions']:
+            print(f"\n{prediction['model']}:")
+            print(f"Prediction: {prediction['prediction']}")
+            print(f"Probability: {prediction['probability']}")
+            
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
 
 if __name__ == "__main__":
     main()
