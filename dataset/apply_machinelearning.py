@@ -1,13 +1,16 @@
 from test_connect import HealthDataService
 import pandas as pd
 import joblib
-import os
+from pymongo import MongoClient
+from datetime import datetime
 
 class HealthMLService:
-    def __init__(self, base_url="http://localhost:3001"):
-        """Initialize the service with models and health data connection"""
+    def __init__(self, base_url="http://localhost:3001", mongo_url="mongodb+srv://tanghvinfo:bhXe73BqgvB2QgTk@clusterlife.kc56d.mongodb.net/hust_life"):
+        """Initialize the service with models, health data connection, and MongoDB Atlas"""
         self.health_service = HealthDataService(base_url=base_url)
         self.models, self.scaler, self.encoders = self.load_saved_models()
+        self.mongo_client = MongoClient(mongo_url)
+        self.db = self.mongo_client["hust_life"]
 
     def load_saved_models(self):
         """Load all saved models and components"""
@@ -95,8 +98,24 @@ class HealthMLService:
         
         return results
 
-    def analyze_health_data(self, user_id, record_id):
-        """Fetch health data and perform heart disease prediction"""
+    def save_predictions_to_mongodb(self, predictions, user_id, collection_name="new_predictions"):
+        """Save the predictions into a specified MongoDB collection"""
+        collection = self.db[collection_name]
+        
+        # Remove old predictions for the same user
+        collection.delete_many({"user_id": user_id})
+        
+        # Insert new predictions
+        record = {
+            "user_id": user_id,
+            "predictions": predictions,
+            "created_at": datetime.utcnow().isoformat()  # Save current UTC time in ISO 8601 format
+        }
+        result = collection.insert_one(record)
+        print(f"Prediction saved to MongoDB in collection '{collection_name}' with ID: {result.inserted_id}")
+
+    def analyze_health_data(self, user_id, record_id, collection_name="new_predictions"):
+        """Fetch health data, perform heart disease prediction, and save results"""
         try:
             # Get health data from service
             health_data = self.health_service.get_complete_health_data(user_id, record_id)
@@ -115,25 +134,31 @@ class HealthMLService:
             # Make predictions
             predictions = self.predict_heart_disease(prepared_data)
             
+            # Save predictions to MongoDB
+            self.save_predictions_to_mongodb(predictions, user_id, collection_name)
+            
             return {
-                'health_data': health_data,
                 'predictions': predictions
             }
-            
+        
         except Exception as e:
             raise Exception(f"Analysis failed: {str(e)}")
 
 def main():
-    # Initialize the service
-    health_ml_service = HealthMLService()
+    # Initialize the service with MongoDB Atlas URL
+    mongo_url = "mongodb+srv://tanghvinfo:bhXe73BqgvB2QgTk@clusterlife.kc56d.mongodb.net/hust_life"
+    health_ml_service = HealthMLService(mongo_url=mongo_url)
     
     # Example user and record IDs
     user_id = "67671fc9f438338fceba7540"
     record_id = "67797cc2a12f2a39e76cfa5e"
     
+    # Name of the new collection
+    collection_name = "predictions_analysis"
+    
     try:
-        # Get analysis results
-        results = health_ml_service.analyze_health_data(user_id, record_id)
+        # Get analysis results and save to the new collection
+        results = health_ml_service.analyze_health_data(user_id, record_id, collection_name)
         
         # Display predictions
         print("\nPredictions:")
