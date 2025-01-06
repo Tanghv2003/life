@@ -1,8 +1,9 @@
-from test_connect import HealthDataService
+import time
 import pandas as pd
 import joblib
 from pymongo import MongoClient
 from datetime import datetime
+from test_connect import HealthDataService
 
 class HealthMLService:
     def __init__(self, base_url="http://localhost:3001", mongo_url="mongodb+srv://tanghvinfo:bhXe73BqgvB2QgTk@clusterlife.kc56d.mongodb.net/hust_life"):
@@ -144,6 +145,7 @@ class HealthMLService:
         except Exception as e:
             raise Exception(f"Analysis failed: {str(e)}")
 
+
 def main():
     # Initialize the service with MongoDB Atlas URL
     mongo_url = "mongodb+srv://tanghvinfo:bhXe73BqgvB2QgTk@clusterlife.kc56d.mongodb.net/hust_life"
@@ -153,19 +155,24 @@ def main():
     user_id = "67671fc9f438338fceba7540"
     record_id = "67797cc2a12f2a39e76cfa5e"
     
-    # Name of the new collection
+    # Name of the collection to save predictions
     collection_name = "predictions_analysis"
     
     try:
-        # Get analysis results and save to the new collection
-        results = health_ml_service.analyze_health_data(user_id, record_id, collection_name)
-        
-        # Display predictions
-        print("\nPredictions:")
-        for prediction in results['predictions']:
-            print(f"\n{prediction['model']}:")
-            print(f"Prediction: {prediction['prediction']}")
-            print(f"Probability: {prediction['probability']}")
+        while True:
+            # Get analysis results and save to MongoDB collection
+            results = health_ml_service.analyze_health_data(user_id, record_id, collection_name)
+            
+            # Display predictions
+            print("\nPredictions:")
+            for prediction in results['predictions']:
+                print(f"\n{prediction['model']}:")
+                print(f"Prediction: {prediction['prediction']}")
+                print(f"Probability: {prediction['probability']}")
+                
+            # Wait for 5 seconds before making another prediction
+            print("\nWaiting for the next prediction...")
+            time.sleep(1000)
             
     except Exception as e:
         print(f"Error occurred: {str(e)}")
