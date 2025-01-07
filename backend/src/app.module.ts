@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { MedicalModule } from './medical/medical.module';
 import { DailyCheckModule } from './dailycheck/daily-check.module';
+import {HeartPredictionModule} from './predic/predic.module'
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb+srv://tanghvinfo:bhXe73BqgvB2QgTk@clusterlife.kc56d.mongodb.net/hust_life'),
@@ -14,7 +15,8 @@ import { DailyCheckModule } from './dailycheck/daily-check.module';
     DatabaseModule,
     UserModule,
     MedicalModule,
-    DailyCheckModule
+    DailyCheckModule,
+    HeartPredictionModule
   ],
   controllers: [AppController],
   providers: [AppService],

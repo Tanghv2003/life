@@ -1,0 +1,10 @@
+.advice-page-container {
+    display: flex;
+    flex-direction: row; /* Sắp xếp các phần tử theo chiều ngang từ trái sang phải */
+    justify-content: flex-start; /* Đảm bảo các phần tử được căn trái */
+    align-items: flex-start; /* Căn các phần tử theo chiều dọc, sát trên cùng */
+    width: 100%;
+    padding: 0; /* Loại bỏ padding để các phần tử sát nhau */
+    padding-left: 20px;
+  }
+  
