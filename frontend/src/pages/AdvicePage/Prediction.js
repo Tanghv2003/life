@@ -9,18 +9,14 @@ function Prediction() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Tạo userId ngay trong component (có thể lấy từ localStorage hoặc mặc định)
-  // const userId = "67671fc9f438338fceba7540"; // Hoặc sử dụng giá trị lấy từ localStorage: localStorage.getItem('userId')
-  // const recordId = "67797cc2a12f2a39e76cfa5e"; // Cung cấp recordId cần thiết cho việc tạo dự đoán mới
-
-  const userId = process.env.REACT_APP_USER_ID; // Đảm bảo bạn đã khai báo trong .env
-  const recordId = process.env.REACT_APP_RECORD_ID; // Đảm bảo bạn đã khai báo trong .env
+  const userId = "67671fc9f438338fceba7540"; 
+  const recordId = "67797cc2a12f2a39e76cfa5e"; 
   
   useEffect(() => {
     const createAndFetchPrediction = async () => {
       setIsLoading(true);
       try {
-        // Tạo dự đoán mới
+      
         const predictionResponse = await heartPredictionService.createPrediction(userId, recordId);
         
         // Lấy dự đoán đã tạo
