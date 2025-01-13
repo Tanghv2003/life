@@ -1,0 +1,99 @@
+{
+    "intents": [
+      {
+        "tag": "greeting",
+        "patterns": [
+          "Hi", "Hey", "Is anyone there?", "Hi there", "Hello", "Hey there", "Howdy", "Hola", "Bonjour", "Konnichiwa",
+          "Xin chào", "Chào", "Chào bạn", "Có ai ở đây không", "Alo", "Chào buổi sáng", "Này", "Xin chào bạn"
+        ],
+        "responses": {
+          "en": [
+            "Hello there. Tell me how are you feeling today?",
+            "Hi there. What brings you here today?",
+            "Hi there. How are you feeling today?",
+            "Great to see you. How do you feel currently?"
+          ],
+          "vi": [
+            "Chào bạn. Hôm nay bạn cảm thấy thế nào?",
+            "Xin chào. Điều gì đưa bạn đến đây hôm nay?",
+            "Chào bạn. Hôm nay tâm trạng bạn ra sao?",
+            "Rất vui được gặp bạn. Hiện tại bạn cảm thấy thế nào?"
+          ]
+        }
+      },
+      {
+        "tag": "morning",
+        "patterns": [
+          "Good morning",
+          "Chào buổi sáng",
+          "Buổi sáng tốt lành"
+        ],
+        "responses": {
+          "en": [
+            "Good morning. I hope you had a good night's sleep. How are you feeling today?",
+            "Good morning. How are you today?"
+          ],
+          "vi": [
+            "Chào buổi sáng. Hy vọng bạn đã có một giấc ngủ ngon. Hôm nay bạn cảm thấy thế nào?",
+            "Chào buổi sáng. Hôm nay bạn thế nào?"
+          ]
+        }
+      },
+      {
+        "tag": "afternoon",
+        "patterns": [
+          "Good afternoon",
+          "Chào buổi chiều",
+          "Buổi chiều tốt lành"
+        ],
+        "responses": {
+          "en": [
+            "Good afternoon. How is your day going?",
+            "Good afternoon. How has your day been?"
+          ],
+          "vi": [
+            "Chào buổi chiều. Ngày hôm nay của bạn thế nào?",
+            "Chào buổi chiều. Hôm nay bạn ra sao?"
+          ]
+        }
+      },
+      {
+        "tag": "evening",
+        "patterns": [
+          "Good evening",
+          "Chào buổi tối",
+          "Buổi tối tốt lành"
+        ],
+        "responses": {
+          "en": [
+            "Good evening. How has your day been?",
+            "Good evening. How is your day going?"
+          ],
+          "vi": [
+            "Chào buổi tối. Ngày hôm nay của bạn như thế nào?",
+            "Chào buổi tối. Hôm nay bạn thế nào?"
+          ]
+        }
+      },
+      {
+        "tag": "night",
+        "patterns": [
+          "Good night",
+          "Chúc ngủ ngon",
+          "Ngủ ngon",
+          "Tạm biệt và chúc ngủ ngon"
+        ],
+        "responses": {
+          "en": [
+            "Good night. Get some proper sleep.",
+            "Good night. Sweet dreams."
+          ],
+          "vi": [
+            "Chúc ngủ ngon. Hãy ngủ thật ngon giấc nhé",
+            "Chúc ngủ ngon. Mơ đẹp nhé"
+          ]
+        }
+      }
+    ]
+  }
+  
