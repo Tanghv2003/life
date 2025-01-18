@@ -129,4 +129,72 @@ export class HttpServices {
       throw error;
     }
   }
+
+  async getSleepTimeLastSevenDays(): Promise<{ date: string; sleepHours: number | null }[]> {
+    try {
+      const sleepData = [];
+      const today = new Date();
+      
+      // Lặp qua 7 ngày trước đó
+      for (let i = 1; i <= 7; i++) {
+        const day = new Date();
+        day.setDate(today.getDate() - i);
+        const dateString = day.toISOString().split('T')[0]; // Lấy ngày theo định dạng YYYY-MM-DD
+
+        const data = await this.esp32DataModel.find({
+          timestamp: { $gte: new Date(`${dateString}T00:00:00Z`), $lt: new Date(`${dateString}T23:59:59Z`) },
+        }).exec();
+
+        if (!data || data.length === 0) {
+          sleepData.push({ date: dateString, sleepHours: null });
+          continue;
+        }
+
+        const ACCELERATION_THRESHOLD = 15; // Ngưỡng gia tốc để xác định trạng thái nghỉ ngơi
+        const MIN_SLEEP_DURATION = 30 * 60 * 1000; // 30 phút tính bằng milliseconds
+        let currentPeriodStart: Date | null = null;
+        let totalSleepTime = 0;
+
+        // Phân tích dữ liệu để tính thời gian ngủ cho ngày này
+        for (let j = 0; j < data.length; j++) {
+          const entry = data[j];
+          const isResting = 
+            Math.abs(entry.acceleration.x) < ACCELERATION_THRESHOLD &&
+            Math.abs(entry.acceleration.y) < ACCELERATION_THRESHOLD &&
+            Math.abs(entry.acceleration.z) < ACCELERATION_THRESHOLD;
+
+          if (isResting && !currentPeriodStart) {
+            currentPeriodStart = new Date(entry.timestamp); // Lưu thời gian bắt đầu giấc ngủ
+          } else if (!isResting && currentPeriodStart) {
+            const periodEnd = new Date(entry.timestamp);
+            const duration = periodEnd.getTime() - currentPeriodStart.getTime();
+
+            if (duration >= MIN_SLEEP_DURATION) {
+              totalSleepTime += duration; // Cộng tổng thời gian ngủ
+            }
+            currentPeriodStart = null;
+          }
+        }
+
+        // Xử lý period cuối cùng nếu vẫn đang trong trạng thái nghỉ ngơi
+        if (currentPeriodStart && data.length > 0) {
+          const lastEntry = data[data.length - 1];
+          const duration = new Date(lastEntry.timestamp).getTime() - currentPeriodStart.getTime();
+          
+          if (duration >= MIN_SLEEP_DURATION) {
+            totalSleepTime += duration; // Cộng tổng thời gian ngủ
+          }
+        }
+
+        // Chuyển đổi từ milliseconds sang giờ
+        const sleepHours = totalSleepTime / (1000 * 60 * 60);
+        sleepData.push({ date: dateString, sleepHours: Number(sleepHours.toFixed(2)) });
+      }
+
+      return sleepData;
+    } catch (error) {
+      console.error('Error in getSleepTimeLastSevenDays:', error);
+      throw error;
+    }
+  }
 }
