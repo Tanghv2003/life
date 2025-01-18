@@ -1,23 +1,30 @@
-import { Controller,Get, Post, Body } from "@nestjs/common";
+import { Controller, Get, Post, Body } from "@nestjs/common";
 import { HttpServices } from "./http.services";
 import { Esp32Dto } from './dto/esp32data.dto';
 import { Esp32Data } from "./schemas/esp32data.schema";
 
 @Controller('http')
-export class HttpController{
-    constructor (private readonly httpServices : HttpServices){
-    }
+export class HttpController {
+  constructor(private readonly httpServices: HttpServices) {}
 
-    @Post('data')
-    async handlePostData(@Body() esp32Data: Esp32Dto): Promise<string> {
-        // Gọi service để xử lý dữ liệu
-        const savedData = await this.httpServices.saveEsp32Data(esp32Data);
-        return `Data saved with ID: ${savedData.id}`;
-    }
+  // Endpoint để lưu dữ liệu ESP32
+  @Post('data')
+  async handlePostData(@Body() esp32Data: Esp32Dto): Promise<string> {
+    // Gọi service để lưu dữ liệu
+    const savedData = await this.httpServices.saveEsp32Data(esp32Data);
+    return `Data saved with ID: ${savedData.id}`;
+  }
 
-    @Get()
-    async getEsp32Data(): Promise<Esp32Data[]> {
+  // Endpoint để lấy tất cả dữ liệu ESP32
+  @Get()
+  async getEsp32Data(): Promise<Esp32Data[]> {
     return this.httpServices.getEsp32Data();
-    }
+  }
 
+  // Endpoint để lấy thông tin nhiệt độ tối ưu cho giấc ngủ
+  @Get('temperature')
+  async getOptimalSleepTemperature(): Promise<Number | null> {
+    // Gọi service để lấy dữ liệu nhiệt độ tối ưu cho giấc ngủ
+    return this.httpServices.getOptimalSleepTemperature();
+  }
 }
