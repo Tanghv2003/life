@@ -13,3 +13,36 @@ export const getdata = async () => {
     throw error;  // Ném lỗi nếu không thể lấy dữ liệu
   }
 };
+
+// Lấy phân tích giấc ngủ
+export const getSleepAnalysis = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/http/sleep-analysis');
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy phân tích giấc ngủ:', error);
+    throw error;
+  }
+};
+
+// Lấy trạng thái dữ liệu
+export const getDataStatus = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/http/data-status');
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy trạng thái dữ liệu:', error);
+    throw error;
+  }
+};
+
+// Lấy thời gian ngủ 7 ngày
+export const getSleepTime7Days = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/http/sleep-time-7-days');
+    return response.data;
+  } catch (error) {
+    console.error('Lỗi khi lấy thời gian ngủ 7 ngày:', error);
+    throw error;
+  }
+};

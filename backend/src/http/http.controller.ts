@@ -45,5 +45,10 @@ export class HttpController {
   }> {
     return this.httpServices.getDataStatusPercentage();
   }
+
+  @Get('sleep-time-7-days')
+  async getSleepTimePast7Days(): Promise<{ date: string; sleepHours: number | null }[]> {
+    return this.httpServices.getSleepTimePast7Days();
+  }
   
 }
