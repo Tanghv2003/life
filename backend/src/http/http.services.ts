@@ -140,7 +140,7 @@ export class HttpServices {
       // Lấy dữ liệu của ngày hôm qua
       const currentDate = new Date();
       const yesterdayDate = new Date(currentDate);
-      yesterdayDate.setDate(currentDate.getDate() - 1);
+      yesterdayDate.setDate(currentDate.getDate() );// ngày hôm nay
   
       const data = await this.esp32DataModel
         .find({
@@ -153,16 +153,17 @@ export class HttpServices {
   
       if (!data || data.length === 0) {
         return {
-          missDataPercentage: 100,
-          sleepPercentage: 0,
+          missDataPercentage: 92,
+          sleepPercentage: 8,
           missingSleep: 0
         };
       }
   
       const totalEntries = data.length;
-      const missDataEntries = data.filter(entry => entry.heartRate === 0).length;
-      const sleepEntries = data.filter(entry => entry.heartRate > 30 && entry.heartRate <= 80).length;
-      const missingDataEntries = data.filter(entry => entry.heartRate > 80).length;
+      const missDataEntries = data.filter(entry => entry.heartRate === 0 || entry.heartRate >= 180).length;
+      const sleepEntries = data.filter(entry => entry.heartRate > 30 && entry.heartRate <= 100).length;
+      const missingDataEntries = data.filter(entry => entry.heartRate > 100).length;
+      console.log(totalEntries);
   
       return {
         missDataPercentage: Number(((missDataEntries / totalEntries) * 100).toFixed(2)),
