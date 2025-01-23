@@ -37,9 +37,13 @@ export class HttpController {
     // Gọi service để lấy số giờ ngủ của ngày hôm qua
     return this.httpServices.getSleepTimeYesterday();
   }
-
-  @Get('sleep-7-days')
-  async getSleepAnalysisLastSevenDays(): Promise<{ date: string; sleepHours: number | null }[]> {
-    return this.httpServices.getSleepTimeLastSevenDays();
+  @Get('data-status')
+  async getDataStatusPercentage(): Promise<{
+    missDataPercentage: number;
+    sleepPercentage: number;
+    missingDataPercentage: number;
+  }> {
+    return this.httpServices.getDataStatusPercentage();
   }
+  
 }
