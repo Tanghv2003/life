@@ -9,7 +9,7 @@
 #include <PulseSensorPlayground.h>  // Thêm thư viện PulseSensorPlayground
 
 // WiFi credentials
-const char* ssid = "Tang 4";   
+const char* ssid = "T5";   
 const char* password = "77778888"; 
 
 // DHT sensor setup
@@ -27,9 +27,9 @@ PulseSensorPlayground pulseSensor;  // Khởi tạo đối tượng Pulse Sensor
 
 // NTP Client setup
 WiFiUDP udp;
-NTPClient timeClient(udp, "pool.ntp.org", 3600);
+// Sử dụng UTC+7 cho múi giờ Việt Nam
+NTPClient timeClient(udp, "pool.ntp.org", 25200);
 
-// Connect to WiFi
 void setup() {
   Serial.begin(115200);
   Wire.begin();
@@ -59,7 +59,6 @@ void setup() {
   }
 }
 
-// Main loop
 void loop() {
   // Đọc nhiệt độ và độ ẩm từ cảm biến DHT
   float temperature = dht.readTemperature();
@@ -112,9 +111,9 @@ void loop() {
   String payload = "{\"temperature\": " + String(temperature) + 
                    ", \"humidity\": " + String(humidity) +
                    ", \"heartRate\": " + String(heartRate) + 
-                   ", \"acceleration\": {\"x\": " + String(accX / 1000.0, 2) + 
-                   ", \"y\": " + String(accY / 1000.0, 2) + 
-                   ", \"z\": " + String(accZ / 1000.0, 2) + "}, " +
+                   ", \"acceleration\": {\"x\": " + String(accX / 1.0, 2) + 
+                   ", \"y\": " + String(accY / 1.0, 2) + 
+                   ", \"z\": " + String(accZ / 1.0, 2) + "}, " +
                    "\"angles\": {\"x\": " + String(angleX, 2) +
                    ", \"y\": " + String(angleY, 2) +
                    ", \"z\": " + String(angleZ, 2) + "}, " +
@@ -123,10 +122,13 @@ void loop() {
   // Gửi dữ liệu lên server
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    String serverURL =  "http://192.168.0.149:3001/http/data";  // Thay bằng URL của server của bạn
+    String serverURL =  "http://192.168.43.89:3001/http/data";  // Thay bằng URL của server của bạn
     http.begin(serverURL);
 
     http.addHeader("Content-Type", "application/json");
+
+    Serial.println("Payload to send:");
+    Serial.println(payload);  // In JSON payload ra Serial Monitor
 
     int httpResponseCode = http.POST(payload);
 
@@ -144,10 +146,10 @@ void loop() {
   }
 
   // Chờ một chút trước khi gửi dữ liệu tiếp theo
-  delay(2000);
+  delay(5*60*1000);// 5phuts
 }
 
-// Lấy timestamp từ NTP Client
+// Lấy timestamp từ NTP Client (UTC+7)
 String getTimestamp() {
   timeClient.update();
   unsigned long epochTime = timeClient.getEpochTime();

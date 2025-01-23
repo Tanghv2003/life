@@ -38,10 +38,11 @@ export class HttpServices {
       // Lấy ngày hiện tại và ngày trước đó
       const currentDate = new Date();
       const yesterdayDate = new Date(currentDate);
-      yesterdayDate.setDate(currentDate.getDate() - 1); // Lấy ngày trước đó
+      // yesterdayDate.setDate(currentDate.getDate() - 1); // Lấy ngày trước đó
+      yesterdayDate.setDate(currentDate.getDate()); // Lấy ngày hiện tại
       const yesterdayDateString = yesterdayDate.toISOString().split('T')[0]; // Lấy định dạng YYYY-MM-DD
   
-      const ACCELERATION_THRESHOLD = 15; // Ngưỡng gia tốc để xác định trạng thái nghỉ ngơi
+      const ACCELERATION_THRESHOLD = 0.5; // Ngưỡng gia tốc để xác định trạng thái nghỉ ngơi
       const MIN_SLEEP_DURATION = 30 * 60 * 1000; // Ngưỡng thời gian tối thiểu của giấc ngủ, 30 phút tính bằng milliseconds
   
       let currentPeriodStart: Date | null = null;
@@ -55,7 +56,7 @@ export class HttpServices {
         const isResting = 
           Math.abs(entry.acceleration.x) < ACCELERATION_THRESHOLD &&
           Math.abs(entry.acceleration.y) < ACCELERATION_THRESHOLD &&
-          Math.abs(entry.acceleration.z) < ACCELERATION_THRESHOLD;
+          Math.abs(entry.acceleration.z) < ACCELERATION_THRESHOLD + 1;
   
         // Nếu đang nghỉ ngơi và là ngày hôm qua
         if (isResting && entryDate === yesterdayDateString && !currentPeriodStart) {
@@ -87,7 +88,7 @@ export class HttpServices {
   
       return {
         date: yesterdayDateString,
-        sleepHours: Number(sleepHours.toFixed(2)), // Làm tròn đến 2 chữ số thập phân
+        sleepHours: Number(sleepHours.toFixed(2)),
       };
     } catch (error) {
       console.error('Error in getSleepTimeYesterday:', error);

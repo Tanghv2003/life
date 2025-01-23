@@ -52,8 +52,8 @@ export const getSleepTime7Days = async () => {
 export const getTemperature = async () => {
   try {
     const response = await axios.get('http://localhost:3001/http/temperature');
-    // return response.data;
-    return 1;
+    return response.data;
+   
   } catch (error) {
     console.error('Lỗi khi lấy nheiejt độ tốt nhất:', error);
     throw error;
