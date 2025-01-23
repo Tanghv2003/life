@@ -61,8 +61,8 @@ const Rate = () => {
     datasets: [{
       data: [
         dataStatusInfo.sleepPercentage, 
+        dataStatusInfo.missingSleep,
         dataStatusInfo.missDataPercentage, 
-        dataStatusInfo.missingDataPercentage
       ],
       backgroundColor: [
         'rgba(75, 192, 192, 0.6)', 

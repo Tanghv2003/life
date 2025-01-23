@@ -133,7 +133,7 @@ export class HttpServices {
   async getDataStatusPercentage(): Promise<{
     missDataPercentage: number;
     sleepPercentage: number;
-    missingDataPercentage: number;
+    missingSleep: number;
   }> {
     try {
       // Lấy dữ liệu của ngày hôm qua
@@ -154,7 +154,7 @@ export class HttpServices {
         return {
           missDataPercentage: 100,
           sleepPercentage: 0,
-          missingDataPercentage: 0
+          missingSleep: 0
         };
       }
   
@@ -166,7 +166,7 @@ export class HttpServices {
       return {
         missDataPercentage: Number(((missDataEntries / totalEntries) * 100).toFixed(2)),
         sleepPercentage: Number(((sleepEntries / totalEntries) * 100).toFixed(2)),
-        missingDataPercentage: Number(((missingDataEntries / totalEntries) * 100).toFixed(2))
+        missingSleep: Number(((missingDataEntries / totalEntries) * 100).toFixed(2))
       };
     } catch (error) {
       console.error('Error in getDataStatusPercentage:', error);

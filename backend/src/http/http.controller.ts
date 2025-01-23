@@ -41,7 +41,7 @@ export class HttpController {
   async getDataStatusPercentage(): Promise<{
     missDataPercentage: number;
     sleepPercentage: number;
-    missingDataPercentage: number;
+    missingSleep: number;
   }> {
     return this.httpServices.getDataStatusPercentage();
   }

@@ -19,6 +19,7 @@ export const getSleepAnalysis = async () => {
   try {
     const response = await axios.get('http://localhost:3001/http/sleep-analysis');
     return response.data;
+    // return 1;
   } catch (error) {
     console.error('Lỗi khi lấy phân tích giấc ngủ:', error);
     throw error;
@@ -43,6 +44,18 @@ export const getSleepTime7Days = async () => {
     return response.data;
   } catch (error) {
     console.error('Lỗi khi lấy thời gian ngủ 7 ngày:', error);
+    throw error;
+  }
+};
+
+// lays nhiệt độ tốt nhất
+export const getTemperature = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/http/temperature');
+    // return response.data;
+    return 1;
+  } catch (error) {
+    console.error('Lỗi khi lấy nheiejt độ tốt nhất:', error);
     throw error;
   }
 };
